@@ -1,0 +1,123 @@
+<div class="container mx-auto px-4 py-8">
+  <div
+    class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+  >
+    <h1 class="text-2xl font-bold">
+      <i class="fas fa-calendar-alt mr-2"></i>
+      {{ esEmpleado ? "Mis Citas Programadas" : "Mis Citas" }}
+    </h1>
+
+    <a *ngIf="!esEmpleado" routerLink="/citas/nueva" class="btn btn-primary">
+      <i class="fas fa-plus mr-2"></i> Nueva Cita
+    </a>
+  </div>
+
+  <!-- Filtros -->
+  <div class="bg-base-200 p-4 rounded-lg mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Filtrar por estado</span>
+        </label>
+        <select
+          class="select select-bordered"
+          [(ngModel)]="filtroEstado"
+          (change)="cambiarEstadoFiltro()"
+        >
+          <option *ngFor="let estado of estados" [value]="estado.valor">
+            {{ estado.texto }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Filtrar por fecha</span>
+        </label>
+        <select
+          class="select select-bordered"
+          [(ngModel)]="filtroFecha"
+          (change)="cambiarFechaFiltro()"
+        >
+          <option *ngFor="let opcion of opcionesFecha" [value]="opcion.valor">
+            {{ opcion.texto }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="text-center py-12">
+    <span class="loading loading-spinner loading-lg"></span>
+    <p>Cargando tus citas...</p>
+  </div>
+
+  <!-- Mensaje cuando no hay citas -->
+  <div *ngIf="!loading && citasFiltradas.length === 0" class="alert alert-info">
+    <i class="fas fa-info-circle mr-2"></i>
+    No hay citas que coincidan con los filtros seleccionados
+  </div>
+
+  <!-- Lista de citas -->
+  <div *ngIf="!loading && citasFiltradas.length > 0" class="space-y-4">
+    <div
+      *ngFor="let cita of citasFiltradas"
+      class="card bg-base-100 shadow hover:shadow-md transition-shadow"
+    >
+      <div class="card-body">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+        >
+          <div>
+            <h2 class="card-title">
+              {{ getNombreServicio(cita.servicioId) }}
+              <span class="text-sm font-normal ml-2">
+                {{ cita.fecha | date : "mediumDate" }} a las
+                {{ cita.horaInicio }}
+              </span>
+            </h2>
+
+            <p>
+              <span class="font-semibold"
+                >{{ esEmpleado ? "Cliente" : "Profesional" }}:</span
+              >
+              {{
+                esEmpleado
+                  ? getNombreCliente(cita.clienteId)
+                  : getNombreEmpleado(cita.empleadoId)
+              }}
+            </p>
+
+            <span
+              class="badge mt-2"
+              [ngClass]="{
+                'badge-info': cita.estado === 'pendiente',
+                'badge-primary': cita.estado === 'confirmada',
+                'badge-success': cita.estado === 'completada',
+                'badge-error': cita.estado === 'cancelada',
+                'badge-warning': cita.estado === 'no-presentado'
+              }"
+            >
+              {{ getEstadoTexto(cita.estado) }}
+            </span>
+          </div>
+
+          <div class="card-actions justify-end">
+            <button (click)="verDetalle(cita.id!)" class="btn btn-ghost">
+              <i class="fas fa-eye mr-2"></i> Detalles
+            </button>
+
+            <button
+              *ngIf="cita.estado === 'pendiente' && !esEmpleado"
+              (click)="cancelarCita(cita.id!)"
+              class="btn btn-error"
+            >
+              <i class="fas fa-times mr-2"></i> Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
