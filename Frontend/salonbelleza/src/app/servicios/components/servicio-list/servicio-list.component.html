@@ -1,0 +1,64 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Gestión de Servicios</h2>
+    <a routerLink="/servicios/nuevo" class="btn btn-primary">
+      <i class="fas fa-plus mr-2"></i> Nuevo Servicio
+    </a>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="text-center py-12">
+    <span class="loading loading-spinner loading-lg"></span>
+    <p>Cargando servicios...</p>
+  </div>
+
+  <!-- Tabla de servicios -->
+  <div *ngIf="!loading" class="overflow-x-auto bg-base-100 rounded-lg shadow">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Duración</th>
+          <th>Precio</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let servicio of servicios" class="hover">
+          <td>{{ servicio.nombre }}</td>
+          <td class="max-w-xs truncate">{{ servicio.descripcion }}</td>
+          <td>{{ servicio.duracion }} min</td>
+          <td>{{ servicio.precio | currency }}</td>
+          <td>
+            <span
+              [ngClass]="{
+                'badge badge-success': servicio.estado === 'activo',
+                'badge badge-error': servicio.estado === 'inactivo'
+              }"
+            >
+              {{ servicio.estado }}
+            </span>
+          </td>
+          <td>
+            <div class="flex space-x-2">
+              <a
+                [routerLink]="['/servicios/editar', servicio.id]"
+                class="btn btn-sm btn-ghost"
+              >
+                Editar
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mensaje cuando no hay servicios -->
+  <div *ngIf="!loading && servicios.length === 0" class="alert alert-info mt-6">
+    <i class="fas fa-info-circle mr-2"></i>
+    No hay servicios registrados
+  </div>
+</div>

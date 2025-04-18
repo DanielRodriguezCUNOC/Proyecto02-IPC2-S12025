@@ -1,0 +1,14 @@
+/* Estilos básicos para la tabla */
+.table {
+  width: 100%;
+}
+
+/* Asegurar que las celdas de descripción no sean demasiado largas */
+.max-w-xs {
+  max-width: 20rem;
+}
+
+/* Estilos para el estado */
+.badge {
+  margin-right: 0.5rem;
+}

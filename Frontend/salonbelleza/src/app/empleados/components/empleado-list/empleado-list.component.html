@@ -1,0 +1,112 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Gestión de Empleados</h2>
+    <button
+      *ngIf="esAdministrador"
+      routerLink="/empleados/nuevo"
+      class="btn btn-primary"
+    >
+      <i class="fas fa-plus mr-2"></i> Nuevo Empleado
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="bg-base-200 p-4 rounded-lg mb-6">
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Filtrar por estado</span>
+      </label>
+      <select
+        class="select select-bordered"
+        [(ngModel)]="filtroEstado"
+        (change)="cargarEmpleados()"
+      >
+        <option value="activos">Activos</option>
+        <option value="todos">Todos</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="text-center py-12">
+    <span class="loading loading-spinner loading-lg"></span>
+    <p>Cargando empleados...</p>
+  </div>
+
+  <!-- Lista de empleados -->
+  <div
+    *ngIf="!loading"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+  >
+    <div
+      *ngFor="let empleado of empleados"
+      class="card bg-base-100 shadow hover:shadow-lg transition-shadow"
+    >
+      <figure class="px-4 pt-4">
+        <img
+          [src]="empleado.fotoUrl || 'assets/img/avatar-default.png'"
+          [alt]="empleado.nombre"
+          class="rounded-xl h-48 w-full object-cover"
+        />
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title">
+          {{ empleado.nombre }} {{ empleado.apellido }}
+          <span
+            [ngClass]="{
+              'badge badge-success': empleado.estado === 'activo',
+              'badge badge-error': empleado.estado === 'inactivo'
+            }"
+          >
+            {{ empleado.estado }}
+          </span>
+        </h2>
+
+        <div class="space-y-2">
+          <p><i class="fas fa-envelope mr-2"></i> {{ empleado.email }}</p>
+          <p><i class="fas fa-phone mr-2"></i> {{ empleado.telefono }}</p>
+          <p *ngIf="empleado.especialidades.length > 0">
+            <i class="fas fa-tags mr-2"></i>
+            {{ getEspecialidades(empleado.especialidades) }}
+          </p>
+        </div>
+
+        <div class="card-actions justify-end mt-4">
+          <a
+            [routerLink]="['/empleados/perfil', empleado.id]"
+            class="btn btn-ghost btn-sm"
+          >
+            Ver Perfil
+          </a>
+          <a
+            *ngIf="esAdministrador"
+            [routerLink]="['/empleados/editar', empleado.id]"
+            class="btn btn-ghost btn-sm"
+          >
+            Editar
+          </a>
+          <button
+            *ngIf="esAdministrador && empleado.estado === 'activo'"
+            (click)="cambiarEstado(empleado.id!, 'inactivo')"
+            class="btn btn-error btn-sm"
+          >
+            Desactivar
+          </button>
+          <button
+            *ngIf="esAdministrador && empleado.estado === 'inactivo'"
+            (click)="cambiarEstado(empleado.id!, 'activo')"
+            class="btn btn-success btn-sm"
+          >
+            Activar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensaje cuando no hay empleados -->
+  <div *ngIf="!loading && empleados.length === 0" class="alert alert-info mt-6">
+    <i class="fas fa-info-circle mr-2"></i>
+    No hay empleados registrados
+  </div>
+</div>

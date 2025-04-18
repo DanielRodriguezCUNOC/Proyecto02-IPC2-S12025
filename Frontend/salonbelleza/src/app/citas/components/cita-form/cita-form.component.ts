@@ -232,21 +232,4 @@ export class CitaFormComponent implements OnInit {
     const servicio = this.servicios.find((s) => s.id === id);
     return servicio ? servicio.nombre : 'Servicio no encontrado';
   }
-
-  descargarPDF(): void {
-    if (this.cita?.id) {
-      this.citaService
-        .generarComprobanteCita(this.cita.id)
-        .subscribe((blob) => {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `comprobante-cita-${this.cita.id}.pdf`;
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
-          document.body.removeChild(a);
-        });
-    }
-  }
 }

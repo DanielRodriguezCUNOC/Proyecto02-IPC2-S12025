@@ -38,7 +38,19 @@ export class ConfirmacionCitaComponent implements OnInit {
   }
 
   descargarPDF(): void {
-    // Lógica para descargar comprobante en PDF
-    console.log('Descargando comprobante...');
+    if (this.cita?.id) {
+      this.citaService
+        .generarComprobanteCita(this.cita.id)
+        .subscribe((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `comprobante-cita-${this.cita.id}.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        });
+    }
   }
 }

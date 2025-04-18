@@ -1,0 +1,121 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Loading state -->
+  <div *ngIf="loading" class="text-center py-12">
+    <span class="loading loading-spinner loading-lg"></span>
+    <p>Cargando servicio...</p>
+  </div>
+
+  <!-- Detalle del servicio -->
+  <div
+    *ngIf="!loading && servicio"
+    class="bg-base-100 rounded-lg shadow-lg overflow-hidden"
+  >
+    <!-- Imagen y info básica -->
+    <div class="md:flex">
+      <div class="md:w-1/2">
+        <img
+          [src]="servicio.imagenUrl || 'assets/img/servicio-default.jpg'"
+          [alt]="servicio.nombre"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="p-6 md:w-1/2">
+        <h1 class="text-3xl font-bold mb-2">{{ servicio.nombre }}</h1>
+        <div class="badge badge-primary mb-4">
+          {{ servicio.categoria | titlecase }}
+        </div>
+
+        <p class="text-lg mb-4">{{ servicio.descripcion }}</p>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div>
+            <p class="text-sm text-gray-500">Duración</p>
+            <p class="text-xl font-semibold">{{ servicio.duracion }} minutos</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Precio</p>
+            <p class="text-xl font-semibold">
+              {{ servicio.precio | currency }}
+            </p>
+          </div>
+        </div>
+
+        <button
+          routerLink="/citas/nueva"
+          [queryParams]="{ servicioId: servicio.id }"
+          class="btn btn-primary w-full"
+        >
+          <i class="fas fa-calendar-plus mr-2"></i> Reservar Cita
+        </button>
+      </div>
+    </div>
+
+    <!-- Catálogos -->
+    <div
+      *ngIf="servicio.catalogos && servicio.catalogos.length > 0"
+      class="p-6 border-t"
+    >
+      <h2 class="text-2xl font-bold mb-4">Catálogos Disponibles</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div
+          *ngFor="let catalogo of servicio.catalogos"
+          class="card bg-base-200"
+        >
+          <div class="card-body">
+            <h3 class="card-title">{{ catalogo.nombre }}</h3>
+            <p class="text-sm">{{ catalogo.descripcion }}</p>
+            <div class="card-actions justify-end mt-4">
+              <button
+                (click)="verCatalogo(catalogo)"
+                class="btn btn-sm btn-primary"
+              >
+                <i class="fas fa-eye mr-2"></i> Ver
+              </button>
+              <button
+                (click)="descargarCatalogo(catalogo)"
+                class="btn btn-sm btn-ghost"
+              >
+                <i class="fas fa-download mr-2"></i> Descargar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visualizador de PDF -->
+  <div
+    *ngIf="catalogoSeleccionado"
+    class="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4"
+  >
+    <div
+      class="bg-base-100 rounded-lg w-full max-w-4xl max-h-screen overflow-hidden flex flex-col"
+    >
+      <div class="flex justify-between items-center p-4 border-b">
+        <h3 class="text-xl font-bold">{{ catalogoSeleccionado.nombre }}</h3>
+        <button
+          (click)="cerrarVisualizador()"
+          class="btn btn-sm btn-circle btn-ghost"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="flex-1 overflow-auto">
+        <iframe
+          [src]="pdfPreviewUrl"
+          class="w-full h-full min-h-[70vh]"
+          frameborder="0"
+        ></iframe>
+      </div>
+      <div class="p-4 border-t flex justify-end">
+        <button
+          (click)="descargarCatalogo(catalogoSeleccionado)"
+          class="btn btn-primary"
+        >
+          <i class="fas fa-download mr-2"></i> Descargar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

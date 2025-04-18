@@ -1,187 +1,21 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Salón de Belleza Glamour</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="flex bg-pink-50 text-gray-800 min-h-screen">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-pink-300 text-white flex flex-col p-6 shadow-lg">
-      <h1 class="text-3xl font-bold mb-10 text-center">💇‍♀️ Glamour</h1>
-      <nav class="flex flex-col space-y-4 text-lg">
-        <a href="#servicios" class="hover:text-pink-100">Servicios</a>
-        <a href="#nosotros" class="hover:text-pink-100">Nosotros</a>
-        <a href="#galeria" class="hover:text-pink-100">Galería</a>
-        <a href="#testimonios" class="hover:text-pink-100">Testimonios</a>
-        <a href="#horarios" class="hover:text-pink-100">Horarios</a>
-        <a href="#contacto" class="hover:text-pink-100">Contacto</a>
-      </nav>
-      <div class="mt-auto pt-10 text-sm text-center">
-        © 2025 Glamour <br />
-        Todos los derechos reservados
-      </div>
-    </aside>
+<div class="flex flex-col md:flex-row min-h-screen">
+  <!-- Sidebar izquierdo -->
+  <aside class="w-full md:w-64 bg-base-200 p-4">
+    <app-anuncio-display
+      [interesesUsuario]="interesesUsuario"
+    ></app-anuncio-display>
+    <app-servicio-list-client></app-servicio-list-client>
+  </aside>
 
-    <!-- Contenido Principal -->
-    <main class="flex-1 p-10 space-y-16">
-      <!-- Hero -->
-      <section
-        class="bg-gradient-to-r from-pink-200 to-pink-100 p-10 rounded-xl shadow-lg text-center"
-      >
-        <h2 class="text-4xl font-bold mb-4">¡Realza tu Belleza Natural!</h2>
-        <p class="text-lg mb-6">
-          Estilo, color, relajación y cuidado en un solo lugar.
-        </p>
-        <a
-          href="#contacto"
-          class="inline-block bg-pink-400 hover:bg-pink-500 text-white py-2 px-6 rounded-full font-semibold"
-          >Reserva tu cita</a
-        >
-      </section>
+  <!-- Contenido principal -->
+  <main class="flex-1 p-4">
+    <router-outlet></router-outlet>
+  </main>
 
-      <!-- Servicios -->
-      <section id="servicios">
-        <h3 class="text-3xl font-semibold mb-8 text-pink-700">Servicios</h3>
-        <div class="grid md:grid-cols-3 gap-8">
-          <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg">
-            <h4 class="text-xl font-bold mb-2 text-pink-600">
-              💇 Corte de Cabello
-            </h4>
-            <p>Diseños modernos o clásicos, adaptados a tu estilo personal.</p>
-          </div>
-          <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg">
-            <h4 class="text-xl font-bold mb-2 text-pink-600">🎨 Coloración</h4>
-            <p>Transforma tu look con balayage, mechas o colores fantasía.</p>
-          </div>
-          <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg">
-            <h4 class="text-xl font-bold mb-2 text-pink-600">
-              💅 Manicure & Pedicure
-            </h4>
-            <p>Relájate con nuestros tratamientos de spa para manos y pies.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Nosotros -->
-      <section id="nosotros" class="bg-pink-100 p-10 rounded-xl shadow-inner">
-        <h3 class="text-3xl font-semibold mb-4 text-center">Sobre Nosotros</h3>
-        <p class="text-center max-w-3xl mx-auto">
-          Con más de 10 años de experiencia, en Glamour nos dedicamos a
-          ofrecerte un servicio exclusivo y personalizado. Nuestro equipo está
-          formado por profesionales apasionados por la belleza y el bienestar.
-        </p>
-      </section>
-
-      <!-- Galería -->
-      <section id="galeria">
-        <h3 class="text-3xl font-semibold mb-6 text-pink-700">Galería</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <div
-            class="h-48 bg-pink-200 rounded-lg shadow-inner flex items-center justify-center text-pink-600"
-          >
-            Foto 1
-          </div>
-          <div
-            class="h-48 bg-pink-300 rounded-lg shadow-inner flex items-center justify-center text-pink-700"
-          >
-            Foto 2
-          </div>
-          <div
-            class="h-48 bg-pink-200 rounded-lg shadow-inner flex items-center justify-center text-pink-600"
-          >
-            Foto 3
-          </div>
-          <div
-            class="h-48 bg-pink-300 rounded-lg shadow-inner flex items-center justify-center text-pink-700"
-          >
-            Foto 4
-          </div>
-        </div>
-      </section>
-
-      <!-- Testimonios -->
-      <section id="testimonios" class="bg-white p-10 rounded-xl shadow">
-        <h3 class="text-3xl font-semibold mb-6 text-center text-pink-700">
-          Testimonios
-        </h3>
-        <div class="space-y-6 max-w-2xl mx-auto">
-          <blockquote
-            class="border-l-4 border-pink-400 pl-4 italic text-gray-700"
-          >
-            "El mejor lugar para relajarse y salir renovada. ¡Amo mi nuevo
-            look!"<br /><span class="text-sm text-pink-600">— Carla M.</span>
-          </blockquote>
-          <blockquote
-            class="border-l-4 border-pink-400 pl-4 italic text-gray-700"
-          >
-            "Personal amable y resultados increíbles. 100% recomendado."<br /><span
-              class="text-sm text-pink-600"
-              >— Ana P.</span
-            >
-          </blockquote>
-        </div>
-      </section>
-
-      <!-- Horarios -->
-      <section
-        id="horarios"
-        class="bg-pink-100 p-8 rounded-xl shadow-inner text-center"
-      >
-        <h3 class="text-3xl font-semibold mb-4">Horarios de Atención</h3>
-        <p>Lunes a Viernes: <strong>9:00 AM - 7:00 PM</strong></p>
-        <p>Sábado: <strong>9:00 AM - 5:00 PM</strong></p>
-        <p>Domingo: <strong>Cerrado</strong></p>
-      </section>
-
-      <!-- Contacto -->
-      <section id="contacto" class="bg-white p-10 rounded-xl shadow">
-        <h3 class="text-3xl font-semibold mb-6 text-center text-pink-700">
-          Contáctanos
-        </h3>
-        <form
-          class="space-y-4 max-w-md mx-auto"
-          onsubmit="return enviarFormulario(event)"
-        >
-          <input
-            type="text"
-            placeholder="Nombre"
-            class="w-full border border-pink-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
-            required
-          />
-          <input
-            type="email"
-            placeholder="Correo Electrónico"
-            class="w-full border border-pink-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
-            required
-          />
-          <textarea
-            placeholder="Mensaje"
-            rows="4"
-            class="w-full border border-pink-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
-            required
-          ></textarea>
-          <button
-            type="submit"
-            class="bg-pink-400 text-white py-2 px-6 rounded hover:bg-pink-500"
-          >
-            Enviar
-          </button>
-        </form>
-      </section>
-    </main>
-
-    <!-- Script simple embebido -->
-    <script>
-      function enviarFormulario(event) {
-        event.preventDefault();
-        alert("¡Gracias por contactarnos! Te responderemos pronto.");
-        return false;
-      }
-    </script>
-  </body>
-</html>
+  <!-- Sidebar derecho (opcional) -->
+  <aside class="w-full md:w-64 bg-base-200 p-4">
+    <app-anuncio-display
+      [interesesUsuario]="interesesUsuario"
+    ></app-anuncio-display>
+  </aside>
+</div>

@@ -1,0 +1,38 @@
+<div
+  class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow h-full flex flex-col"
+>
+  <figure class="px-4 pt-4">
+    <img
+      [src]="servicio.imagenUrl || 'assets/img/servicio-default.jpg'"
+      [alt]="servicio.nombre"
+      class="rounded-xl h-48 w-full object-cover"
+    />
+  </figure>
+  <div class="card-body flex-1">
+    <div class="flex justify-between items-start">
+      <h2 class="card-title">{{ servicio.nombre }}</h2>
+      <span class="badge badge-primary">{{
+        servicio.categoria | titlecase
+      }}</span>
+    </div>
+    <p class="line-clamp-3">{{ servicio.descripcion }}</p>
+    <div class="grid grid-cols-2 gap-2 mt-4">
+      <div>
+        <p class="text-sm text-gray-500">Duración</p>
+        <p class="font-semibold">{{ servicio.duracion }} min</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Precio</p>
+        <p class="font-semibold">{{ servicio.precio | currency }}</p>
+      </div>
+    </div>
+    <div class="card-actions justify-end mt-4" *ngIf="showButton">
+      <a
+        [routerLink]="['/servicios', servicio.id]"
+        class="btn btn-primary btn-block"
+      >
+        Ver Detalles
+      </a>
+    </div>
+  </div>
+</div>

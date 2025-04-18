@@ -1,0 +1,49 @@
+<div *ngIf="!loading" class="space-y-4">
+  <div
+    *ngFor="let anuncio of anuncios"
+    class="bg-base-100 p-4 rounded-lg shadow-sm border-l-4"
+    [class.border-blue-500]="anuncio.tipo === 'texto'"
+    [class.border-green-500]="anuncio.tipo === 'imagen'"
+    [class.border-purple-500]="anuncio.tipo === 'video'"
+    [attr.data-id]="anuncio.id"
+  >
+    <div *ngIf="anuncio.tipo === 'texto'">
+      <h3 class="font-bold text-lg mb-2">{{ anuncio.titulo }}</h3>
+      <p class="whitespace-pre-line">{{ anuncio.contenido }}</p>
+    </div>
+
+    <div *ngIf="anuncio.tipo === 'imagen'">
+      <h3 class="font-bold text-lg mb-2">{{ anuncio.titulo }}</h3>
+      <img
+        [src]="anuncio.contenido"
+        [alt]="anuncio.titulo"
+        class="max-w-full h-auto rounded"
+      />
+    </div>
+
+    <div *ngIf="anuncio.tipo === 'video'">
+      <h3 class="font-bold text-lg mb-2">{{ anuncio.titulo }}</h3>
+      <div class="aspect-w-16 aspect-h-9">
+        <iframe
+          [src]="anuncio.contenido | safeUrl"
+          frameborder="0"
+          allowfullscreen
+          class="w-full h-64 rounded"
+        ></iframe>
+      </div>
+    </div>
+
+    <div class="mt-2 text-sm text-gray-500">
+      Patrocinado • Válido hasta {{ anuncio.fechaFin | date }}
+    </div>
+  </div>
+
+  <div *ngIf="anuncios.length === 0" class="text-center py-8 text-gray-500">
+    No hay anuncios relevantes para mostrar
+  </div>
+</div>
+
+<div *ngIf="loading" class="text-center py-8">
+  <span class="loading loading-spinner loading-lg"></span>
+  <p>Cargando anuncios...</p>
+</div>

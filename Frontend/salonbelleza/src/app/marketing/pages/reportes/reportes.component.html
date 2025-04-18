@@ -1,0 +1,141 @@
+<div class="container mx-auto px-4 py-8">
+  <h2 class="text-2xl font-bold mb-6">Reportes de Marketing</h2>
+
+  <!-- Filtros -->
+  <div class="card bg-base-200 p-6 mb-6">
+    <h3 class="font-bold text-lg mb-4">Filtros del Reporte</h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Tipo de Reporte</span>
+        </label>
+        <select
+          class="select select-bordered w-full"
+          [(ngModel)]="filtro.tipoReporte"
+        >
+          <option value="top5">Top 5 Anuncios Más Mostrados</option>
+          <option value="historial">Historial de Anuncios</option>
+        </select>
+      </div>
+
+      <div *ngIf="filtro.tipoReporte === 'top5'" class="form-control">
+        <label class="label">
+          <span class="label-text">Rango de Fechas</span>
+        </label>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input
+            type="date"
+            class="input input-bordered w-full"
+            [(ngModel)]="filtro.fechaInicio"
+          />
+          <input
+            type="date"
+            class="input input-bordered w-full"
+            [(ngModel)]="filtro.fechaFin"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <button (click)="cargarReporte()" class="btn btn-primary">
+        <i class="fas fa-refresh mr-2"></i> Generar Reporte
+      </button>
+    </div>
+  </div>
+
+  <!-- Resultados -->
+  <div class="card bg-base-100 p-6 shadow">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="font-bold text-lg">
+        {{
+          filtro.tipoReporte === "top5"
+            ? "Top 5 Anuncios"
+            : "Historial de Anuncios"
+        }}
+      </h3>
+      <div class="flex space-x-2">
+        <button (click)="generarReportePDF()" class="btn btn-sm btn-ghost">
+          <i class="fas fa-file-pdf mr-2"></i> PDF
+        </button>
+        <button (click)="exportarAExcel()" class="btn btn-sm btn-ghost">
+          <i class="fas fa-file-excel mr-2"></i> Excel
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div *ngIf="loading" class="text-center py-8">
+      <span class="loading loading-spinner loading-lg"></span>
+      <p>Generando reporte...</p>
+    </div>
+
+    <!-- Top 5 Anuncios -->
+    <div *ngIf="!loading && filtro.tipoReporte === 'top5'">
+      <div class="overflow-x-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Posición</th>
+              <th>Anuncio</th>
+              <th>Veces Mostrado</th>
+              <th>Tipo</th>
+              <th>URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let anuncio of topAnuncios; let i = index"
+              class="hover"
+            >
+              <td>{{ i + 1 }}</td>
+              <td>{{ anuncio.titulo }}</td>
+              <td>{{ anuncio.vecesMostrado }}</td>
+              <td>{{ anuncio.tipo }}</td>
+              <td class="truncate max-w-xs">{{ anuncio.contenido }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="topAnuncios.length === 0" class="alert alert-info mt-4">
+        <i class="fas fa-info-circle mr-2"></i>
+        No hay datos para mostrar en el rango de fechas seleccionado
+      </div>
+    </div>
+
+    <!-- Historial de Anuncios -->
+    <div *ngIf="!loading && filtro.tipoReporte === 'historial'">
+      <div class="overflow-x-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Anuncio</th>
+              <th>Tipo</th>
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
+              <th>Total Mostrado</th>
+              <th>Ingresos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let anuncio of historialAnuncios" class="hover">
+              <td>{{ anuncio.titulo }}</td>
+              <td>{{ anuncio.tipo }}</td>
+              <td>{{ anuncio.fechaInicio | date }}</td>
+              <td>{{ anuncio.fechaFin | date }}</td>
+              <td>{{ anuncio.vecesMostrado }}</td>
+              <td>{{ anuncio.ingresos | currency }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="historialAnuncios.length === 0" class="alert alert-info mt-4">
+        <i class="fas fa-info-circle mr-2"></i>
+        No hay datos históricos disponibles
+      </div>
+    </div>
+  </div>
+</div>

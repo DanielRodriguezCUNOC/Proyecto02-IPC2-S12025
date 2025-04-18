@@ -1,0 +1,47 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8">Nuestros Servicios</h1>
+
+  <!-- Filtros -->
+  <div class="mb-8">
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Filtrar por categoría</span>
+      </label>
+      <select
+        class="select select-bordered"
+        [(ngModel)]="categoriaSeleccionada"
+      >
+        <option value="todas">Todas las categorías</option>
+        <option *ngFor="let categoria of categorias" [value]="categoria">
+          {{ categoria | titlecase }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="text-center py-12">
+    <span class="loading loading-spinner loading-lg"></span>
+    <p>Cargando servicios...</p>
+  </div>
+
+  <!-- Lista de servicios -->
+  <div
+    *ngIf="!loading"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+  >
+    <app-servicio-card
+      *ngFor="let servicio of filtrarServicios()"
+      [servicio]="servicio"
+    ></app-servicio-card>
+  </div>
+
+  <!-- Mensaje cuando no hay servicios -->
+  <div
+    *ngIf="!loading && filtrarServicios().length === 0"
+    class="alert alert-info mt-6"
+  >
+    <i class="fas fa-info-circle mr-2"></i>
+    No hay servicios disponibles en esta categoría
+  </div>
+</div>
