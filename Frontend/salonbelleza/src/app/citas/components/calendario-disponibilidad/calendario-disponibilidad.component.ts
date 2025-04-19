@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DisponibilidadService } from '../../services/disponibilidad.service';
 import { CitaService } from '../../services/cita.service';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import * as moment from 'moment';
 
 @Component({

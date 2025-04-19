@@ -1,0 +1,104 @@
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+  <!-- Lateral derecho -->
+  <div class="fixed right-0 top-0 h-full w-64 p-4 hidden lg:block">
+    <app-anuncio-display
+      [tipo]="'lateral'"
+      [intereses]="interesesCliente"
+    ></app-anuncio-display>
+  </div>
+
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">Reservar Nueva Cita</h2>
+
+  <form [formGroup]="reservaForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <!-- Selección de Servicio -->
+    <div>
+      <label class="block text-gray-700 mb-2">Servicio *</label>
+      <select
+        formControlName="servicioId"
+        (change)="onServicioChange($any($event.target).value)"
+        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      >
+        <option value="">Seleccione un servicio</option>
+        <option *ngFor="let servicio of servicios" [value]="servicio.id">
+          {{ servicio.nombre }} ({{ servicio.precio | currency }})
+        </option>
+      </select>
+
+      <button
+        (click)="verCatalogo(servicio.id)"
+        class="text-blue-600 hover:text-blue-800"
+      >
+        Ver catálogo
+      </button>
+
+      <app-ver-catalogo #catalogoComponent></app-ver-catalogo>
+    </div>
+
+    <!-- Selección de Empleado -->
+    <div *ngIf="empleados.length > 0">
+      <label class="block text-gray-700 mb-2">Empleado *</label>
+      <select
+        formControlName="empleadoId"
+        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        (change)="onFechaChange()"
+      >
+        <option value="">Seleccione un empleado</option>
+        <option *ngFor="let empleado of empleados" [value]="empleado.id">
+          {{ empleado.nombre }}
+          <span *ngIf="empleado.especialidad"
+            >- {{ empleado.especialidad }}</span
+          >
+        </option>
+      </select>
+    </div>
+
+    <!-- Selección de Fecha -->
+    <div *ngIf="reservaForm.get('empleadoId')?.value">
+      <label class="block text-gray-700 mb-2">Fecha *</label>
+      <input
+        type="date"
+        formControlName="fecha"
+        (change)="onFechaChange()"
+        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        [min]="today | date : 'yyyy-MM-dd'"
+      />
+    </div>
+
+    <!-- Selección de Hora -->
+    <div *ngIf="horariosDisponibles.length > 0">
+      <label class="block text-gray-700 mb-2">Hora *</label>
+      <select
+        formControlName="hora"
+        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      >
+        <option value="">Seleccione una hora</option>
+        <option *ngFor="let hora of horariosDisponibles" [value]="hora">
+          {{ hora }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Notas adicionales -->
+    <div>
+      <label class="block text-gray-700 mb-2">Notas adicionales</label>
+      <textarea
+        formControlName="notas"
+        rows="3"
+        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Especificaciones adicionales..."
+      ></textarea>
+    </div>
+
+    <!-- Botón de envío -->
+    <div class="flex justify-end">
+      <button
+        type="submit"
+        [disabled]="reservaForm.invalid || isLoading"
+        class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300 transition"
+      >
+        <span *ngIf="!isLoading">Reservar Cita</span>
+        <span *ngIf="isLoading">Procesando...</span>
+      </button>
+    </div>
+  </form>
+</div>

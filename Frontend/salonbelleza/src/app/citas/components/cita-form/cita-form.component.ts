@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CitaService } from '../../services/cita.service';
 import { DisponibilidadService } from '../../services/disponibilidad.service';
 import { Cita, Servicio, Empleado } from '../../models/cita.model';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { switchMap, map } from 'rxjs/operators';
 
 @Component({

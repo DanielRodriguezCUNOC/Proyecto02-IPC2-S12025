@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Empleado } from '../models/empleado.model';
 
 @Injectable({
@@ -39,6 +39,23 @@ export class EmpleadoService {
     estado: 'activo' | 'inactivo'
   ): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/${id}/estado`, { estado });
+  }
+
+  getEmpleadosPorServicio(servicioId: number): Observable<Empleado[]> {
+    return this.http.get<Empleado[]>(
+      `${this.apiUrl}/por-servicio/${servicioId}`
+    );
+  }
+
+  getHorariosDisponibles(
+    empleadoId: number,
+    fecha: string
+  ): Observable<string[]> {
+    return this.http
+      .get<{ horarios: string[] }>(
+        `${this.apiUrl}/${empleadoId}/horarios-disponibles?fecha=${fecha}`
+      )
+      .pipe(map((response) => response.horarios));
   }
 }
 export type { Empleado };

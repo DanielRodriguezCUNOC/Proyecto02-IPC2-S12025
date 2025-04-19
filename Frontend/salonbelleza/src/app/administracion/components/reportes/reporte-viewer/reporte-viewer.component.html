@@ -1,0 +1,70 @@
+<!-- reporte-viewer.component.html -->
+<div class="h-full flex flex-col">
+  <!-- Controles -->
+  <div class="p-4 border-b flex justify-between items-center">
+    <h4 class="font-medium">Generando reporte: {{ reporteId }}</h4>
+
+    <div class="flex space-x-2">
+      <button
+        (click)="mostrarFiltros = !mostrarFiltros"
+        class="px-3 py-1 bg-gray-100 rounded-md text-sm"
+      >
+        {{ mostrarFiltros ? "Ocultar" : "Mostrar" }} filtros
+      </button>
+      <button
+        (click)="generarReporte()"
+        class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm"
+      >
+        Regenerar
+      </button>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div *ngIf="mostrarFiltros" class="p-4 border-b bg-gray-50">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Fecha inicio</label>
+        <input
+          type="date"
+          [(ngModel)]="filtros.fechaInicio"
+          class="w-full rounded-md border-gray-300 shadow-sm"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Fecha fin</label>
+        <input
+          type="date"
+          [(ngModel)]="filtros.fechaFin"
+          class="w-full rounded-md border-gray-300 shadow-sm"
+        />
+      </div>
+      <div class="flex items-end">
+        <button
+          (click)="aplicarFiltros()"
+          class="px-4 py-2 bg-blue-600 text-white rounded-md"
+        >
+          Aplicar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visor PDF -->
+  <div class="flex-1 relative">
+    <div
+      *ngIf="isLoading"
+      class="absolute inset-0 flex items-center justify-center"
+    >
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+
+    <iframe
+      *ngIf="pdfUrl && !isLoading"
+      [src]="pdfUrl"
+      class="w-full h-full"
+      style="min-height: 600px"
+    >
+    </iframe>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CitaService } from '../../services/cita.service';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { Cita } from '../../models/cita.model';
 import { Router } from '@angular/router';
 import * as moment from 'moment';

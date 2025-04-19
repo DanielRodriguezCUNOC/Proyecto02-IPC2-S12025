@@ -1,3 +1,5 @@
+import { Factura } from '../../models/factura.model';
+
 export interface Cliente {
   id: number;
   nombre: string;
@@ -28,20 +30,14 @@ export interface HorarioAtencion {
   horaFin: string;
 }
 
+// models/cita.model.ts
 export interface Cita {
-  id?: number;
-  fecha: string; // formato 'YYYY-MM-DD'
-  horaInicio: string; // formato 'HH:mm'
-  horaFin: string;
-  servicioId: number;
-  empleadoId: number;
-  clienteId: number;
-  estado:
-    | 'pendiente'
-    | 'confirmada'
-    | 'completada'
-    | 'cancelada'
-    | 'no-presentado';
+  id: number;
+  fecha: string;
+  hora: string;
+  estado: 'pendiente' | 'completada' | 'cancelada';
+  servicio: Servicio;
+  empleado: Empleado;
+  factura?: Factura;
   notas?: string;
-  fechaCreacion?: string;
 }

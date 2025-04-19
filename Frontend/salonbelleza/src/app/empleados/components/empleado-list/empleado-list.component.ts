@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmpleadoService, Empleado } from '../../services/empleado.service';
 import { ServicioService } from '../../../servicios/services/servicio.service';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-empleado-list',

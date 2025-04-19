@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CitaService } from '../../services/cita.service';
 import { Cita } from '../../models/cita.model';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

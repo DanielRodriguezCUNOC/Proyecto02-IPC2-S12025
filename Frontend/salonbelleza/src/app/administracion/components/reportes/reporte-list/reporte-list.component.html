@@ -1,0 +1,33 @@
+<!-- reporte-list.component.html -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6 p-6">
+  <!-- Panel de reportes -->
+  <div class="bg-white rounded-lg shadow overflow-hidden lg:col-span-1">
+    <div class="p-4 border-b">
+      <h3 class="text-lg font-medium">Reportes Disponibles</h3>
+    </div>
+    <div class="divide-y divide-gray-200">
+      <div
+        *ngFor="let reporte of reportes"
+        (click)="generarReporte(reporte.id)"
+        [class.bg-blue-50]="reporteSeleccionado === reporte.id"
+        class="p-4 hover:bg-gray-50 cursor-pointer"
+      >
+        <p class="font-medium">{{ reporte.nombre }}</p>
+        <p class="text-sm text-gray-500">{{ reporte.descripcion }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visor de reportes -->
+  <div class="bg-white rounded-lg shadow overflow-hidden lg:col-span-3">
+    <app-reporte-viewer
+      *ngIf="reporteSeleccionado"
+      [reporteId]="reporteSeleccionado"
+    >
+    </app-reporte-viewer>
+
+    <div *ngIf="!reporteSeleccionado" class="p-8 text-center text-gray-500">
+      <p>Seleccione un reporte para generarlo</p>
+    </div>
+  </div>
+</div>
