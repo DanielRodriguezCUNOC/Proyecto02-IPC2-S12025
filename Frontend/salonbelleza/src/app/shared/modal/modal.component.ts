@@ -3,6 +3,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
+  standalone: true,
   template: `
     <div
       *ngIf="visible"

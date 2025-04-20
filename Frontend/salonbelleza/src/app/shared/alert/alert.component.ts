@@ -1,6 +1,6 @@
 // alert.component.ts
 import { Component, OnInit } from '@angular/core';
-import { AlertService, Alert } from '../services/alert.service'; // Asegúrate de importar la interfaz Alert
+import { AlertService, Alert } from '../services/alert.service';
 
 @Component({
   selector: 'app-alert',

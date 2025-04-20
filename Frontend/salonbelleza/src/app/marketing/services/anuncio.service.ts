@@ -36,5 +36,7 @@ export class AnuncioService {
     return this.http.get<Anuncio[]>(`${this.apiUrl}/historial`);
   }
 
-  // ... otros métodos ...
+  getAnunciosActivos(): Observable<Anuncio[]> {
+    return this.http.get<Anuncio[]>(`${this.apiUrl}/activos`);
+  }
 }

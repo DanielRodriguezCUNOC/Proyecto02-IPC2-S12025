@@ -9,12 +9,7 @@ import { ModalComponent } from './modal/modal.component';
 @NgModule({
   declarations: [AlertComponent, LoadingSpinnerComponent, ModalComponent],
   imports: [CommonModule],
-  exports: [
-    AlertComponent,
-    LoadingSpinnerComponent,
-    ModalComponent,
-    CommonModule,
-  ],
+  exports: [AlertComponent, LoadingSpinnerComponent, ModalComponent],
   providers: [],
 })
 export class SharedModule {}

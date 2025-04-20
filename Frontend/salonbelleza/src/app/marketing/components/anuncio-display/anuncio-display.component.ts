@@ -4,6 +4,7 @@ import { Anuncio } from '../../models/anuncio.model';
 
 @Component({
   selector: 'app-anuncio-display',
+  standalone: true,
   templateUrl: './anuncio-display.component.html',
   styleUrls: ['./anuncio-display.component.css'],
 })
